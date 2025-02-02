@@ -11,7 +11,8 @@ export default function Home() {
 
   const fetchClients = async () => {
     try {
-      const response = await axios.get("http://10.0.0.12:57935/clients/");
+      //const response = await axios.get("http://10.0.0.12:57935/clients/");
+      const response = await axios.get("/api/clients/");
       setClients(response.data);
     } catch (error) {
       // Affichage complet de l'erreur dans la console
@@ -29,24 +30,24 @@ export default function Home() {
     }
   };
 
-//  const deleteClient = async (clientName) => {
-//    if (!window.confirm(`Supprimer le client ${clientName} ?`)) return;
-//    try {
-//      await axios.delete(`http://10.0.0.12:57935/clients/${clientName}`);
-//      setClients(clients.filter(client => client.client !== clientName));
-//    } catch (error) {
-//      // Affichage complet de l'erreur dans la console
-//      console.error("Error deleting client:", error);
-//      if (error.response) {
-//        console.error("Response error:", error.response.data);
-//        console.error("Response status:", error.response.status);
-//      } else if (error.request) {
-//        console.error("Request error:", error.request);
-//      } else {
-//        console.error("General error:", error.message);
-//      }
-//    }
-//  };
+  const deleteClient = async (clientName) => {
+    if (!window.confirm(`Supprimer le client ${clientName} ?`)) return;
+    try {
+      await axios.delete(`http://10.0.0.12:57935/clients/${clientName}`);
+      setClients(clients.filter(client => client.client !== clientName));
+    } catch (error) {
+      // Affichage complet de l'erreur dans la console
+      console.error("Error deleting client:", error);
+      if (error.response) {
+        console.error("Response error:", error.response.data);
+        console.error("Response status:", error.response.status);
+      } else if (error.request) {
+        console.error("Request error:", error.request);
+      } else {
+        console.error("General error:", error.message);
+      }
+    }
+  };
 
   return (
     <div className="container mx-auto p-6">
