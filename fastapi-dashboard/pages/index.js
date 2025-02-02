@@ -1,5 +1,7 @@
+// pages/index.js
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Link from "next/link"; // Utiliser Link pour la navigation dans Next.js
 
 export default function Home() {
   const [clients, setClients] = useState([]);
@@ -11,41 +13,12 @@ export default function Home() {
 
   const fetchClients = async () => {
     try {
-      //const response = await axios.get("http://10.0.0.12:57935/clients/");
       const response = await axios.get("/api/clients/");
       setClients(response.data);
     } catch (error) {
-      // Affichage complet de l'erreur dans la console
       console.error("Error fetching clients:", error);
-      if (error.response) {
-        console.error("Response error:", error.response.data);
-        console.error("Response status:", error.response.status);
-      } else if (error.request) {
-        console.error("Request error:", error.request);
-      } else {
-        console.error("General error:", error.message);
-      }
     } finally {
       setLoading(false);
-    }
-  };
-
-  const deleteClient = async (clientName) => {
-    if (!window.confirm(`Supprimer le client ${clientName} ?`)) return;
-    try {
-      await axios.delete(`http://10.0.0.12:57935/clients/${clientName}`);
-      setClients(clients.filter(client => client.client !== clientName));
-    } catch (error) {
-      // Affichage complet de l'erreur dans la console
-      console.error("Error deleting client:", error);
-      if (error.response) {
-        console.error("Response error:", error.response.data);
-        console.error("Response status:", error.response.status);
-      } else if (error.request) {
-        console.error("Request error:", error.request);
-      } else {
-        console.error("General error:", error.message);
-      }
     }
   };
 
@@ -55,36 +28,32 @@ export default function Home() {
       {loading ? (
         <p>Chargement...</p>
       ) : (
-        <div className="space-y-6">
+        <div className="overflow-x-auto">
           {clients.length === 0 ? (
             <p>Aucun client trouvé.</p>
           ) : (
-            clients.map((client) => (
-              <div key={client.client} className="bg-white p-4 rounded-lg shadow">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-lg font-semibold">{client.client}</h2>
-                  <button
-                    className="bg-red-500 text-white px-3 py-1 rounded"
-                    onClick={() => deleteClient(client.client)}
-                  >Supprimer</button>
-                </div>
-                <div className="mt-2">
-                  {client.computers.map((computer) => (
-                    <div key={computer.ip_address} className="border p-2 rounded mt-2">
-                      <p><strong>IP:</strong> {computer.ip_address}</p>
-                      <p><strong>Latence:</strong> {computer.latency}</p>
-                      <p><strong>Hostname:</strong> {computer.hostname}</p>
-                      <p><strong>Ports:</strong></p>
-                      <ul className="ml-4 list-disc">
-                        {Object.entries(computer.ports).map(([port, service]) => (
-                          <li key={port}>{port} - {service}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))
+            <table className="min-w-full table-auto border-collapse">
+              <thead>
+                <tr>
+                  <th className="border-b p-4 text-left">Client</th>
+                  <th className="border-b p-4 text-left">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {clients.map((client) => (
+                  <tr key={client.client}>
+                    <td className="border-b p-4">{client.client}</td>
+                    <td className="border-b p-4">
+                      <Link href={`/client-detail/${client.client}`}>
+                        <a className="bg-blue-500 text-white px-4 py-2 rounded">
+                          Voir Détails
+                        </a>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
         </div>
       )}
