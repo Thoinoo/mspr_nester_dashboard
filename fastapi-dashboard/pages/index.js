@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import du CSS Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap
 
 export default function Home() {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false); // ✅ Empêche le rendu avant l'hydratation
 
   useEffect(() => {
+    setIsMounted(true); // ✅ Active le rendu après hydratation
     fetchClients();
   }, []);
 
@@ -21,6 +23,8 @@ export default function Home() {
       setLoading(false);
     }
   };
+
+  if (!isMounted) return null; // ✅ Empêche le rendu SSR initial
 
   return (
     <div className="container mt-5">
