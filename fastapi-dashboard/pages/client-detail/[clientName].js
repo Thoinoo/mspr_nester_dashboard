@@ -2,6 +2,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 
 export default function ClientDetail() {
   const { clientName } = useRouter().query; // Capture le nom du client depuis l'URL
@@ -32,10 +33,21 @@ export default function ClientDetail() {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-semibold text-center mb-6 text-indigo-600">{client.client}</h1>
+      {/* Bouton retour à l'accueil */}
+      <div className="mb-6 text-center">
+        <Link href="/" passHref>
+          <button className="px-6 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition duration-300">
+            Retour à l'accueil
+          </button>
+        </Link>
+      </div>
 
-      <div className="overflow-x-auto shadow-lg rounded-lg">
-        <table className="min-w-full table-auto border-separate border-spacing-0">
+      {/* Titre centré du nom du client */}
+      <h1 className="text-4xl font-semibold text-center text-indigo-600 mb-8">{client.client}</h1>
+
+      {/* Tableau centré avec bordure colorée */}
+      <div className="overflow-x-auto shadow-lg rounded-lg border border-indigo-300">
+        <table className="min-w-full table-auto border-separate border-spacing-0 mx-auto">
           <thead>
             <tr className="bg-indigo-600 text-white">
               <th className="px-6 py-3 text-left text-sm font-semibold">IP</th>
