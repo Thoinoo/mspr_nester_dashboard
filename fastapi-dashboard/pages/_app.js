@@ -1,7 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import du CSS de Bootstrap
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import des scripts de Bootstrap
+import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    require("bootstrap/dist/js/bootstrap.bundle.min.js"); // Charger Bootstrap JS uniquement côté client
+  }, []);
+
   return <Component {...pageProps} />;
 }
 
