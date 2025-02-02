@@ -45,24 +45,25 @@ export default function ClientDetail() {
       {/* Titre centré du nom du client */}
       <h1 className="text-4xl font-semibold text-center text-indigo-600 mb-8">{client.client}</h1>
 
-      {/* Tableau centré avec bordure colorée */}
-      <div className="overflow-x-auto shadow-lg rounded-lg border border-indigo-300">
-        <table className="min-w-full table-auto border-separate border-spacing-0 mx-auto">
+      {/* Conteneur centré avec un max-width */}
+      <div className="overflow-x-auto max-w-4xl mx-auto">
+        {/* Tableau avec bordure visible */}
+        <table className="min-w-full table-auto border-collapse mx-auto border border-indigo-300 rounded-lg">
           <thead>
             <tr className="bg-indigo-600 text-white">
-              <th className="px-6 py-3 text-left text-sm font-semibold">IP</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold">Hostname</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold">Latency</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold">Ports</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold border border-indigo-300">IP</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold border border-indigo-300">Hostname</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold border border-indigo-300">Latency</th>
+              <th className="px-6 py-3 text-left text-sm font-semibold border border-indigo-300">Ports</th>
             </tr>
           </thead>
           <tbody>
             {client.computers.map((computer) => (
-              <tr key={computer.ip_address} className="hover:bg-gray-100 border-b">
-                <td className="px-6 py-4 text-sm font-medium text-gray-800">{computer.ip_address}</td>
-                <td className="px-6 py-4 text-sm font-medium text-gray-800">{computer.hostname}</td>
-                <td className="px-6 py-4 text-sm text-gray-600">{computer.latency}</td>
-                <td className="px-6 py-4 text-sm text-gray-600">
+              <tr key={computer.ip_address} className="hover:bg-gray-100">
+                <td className="px-6 py-4 text-sm font-medium text-gray-800 border border-indigo-300">{computer.ip_address}</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-800 border border-indigo-300">{computer.hostname}</td>
+                <td className="px-6 py-4 text-sm text-gray-600 border border-indigo-300">{computer.latency}</td>
+                <td className="px-6 py-4 text-sm text-gray-600 border border-indigo-300">
                   <ul className="list-disc pl-5">
                     {Object.entries(computer.ports).map(([port, service]) => (
                       <li key={port} className="text-sm">
