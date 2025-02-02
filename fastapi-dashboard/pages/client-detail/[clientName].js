@@ -27,46 +27,45 @@ export default function ClientDetail() {
     }
   };
 
-  if (loading) return <p className="text-center text-gray-500">Chargement des détails...</p>;
+  if (loading) return <p className="text-center text-muted">Chargement des détails...</p>;
 
-  if (!client) return <p className="text-center text-red-500">Client introuvable.</p>;
+  if (!client) return <p className="text-center text-danger">Client introuvable.</p>;
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mt-5">
       {/* Bouton retour à l'accueil */}
-      <div className="mb-6 text-center">
+      <div className="text-center mb-4">
         <Link href="/" passHref>
-          <button className="px-6 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition duration-300">
+          <button className="btn btn-primary">
             Retour à l'accueil
           </button>
         </Link>
       </div>
 
       {/* Titre centré du nom du client */}
-      <h1 className="text-4xl font-semibold text-center text-indigo-600 mb-8">{client.client}</h1>
+      <h1 className="text-center text-primary mb-5">{client.client}</h1>
 
-      {/* Conteneur centré avec un max-width */}
-      <div className="overflow-x-auto max-w-4xl mx-auto">
-        {/* Tableau avec bordure visible */}
-        <table className="min-w-full table-auto border-collapse mx-auto border border-indigo-300 rounded-lg">
-          <thead>
-            <tr className="bg-indigo-600 text-white">
-              <th className="px-6 py-3 text-left text-sm font-semibold border border-indigo-300">IP</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold border border-indigo-300">Hostname</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold border border-indigo-300">Latency</th>
-              <th className="px-6 py-3 text-left text-sm font-semibold border border-indigo-300">Ports</th>
+      {/* Tableau stylisé avec Bootstrap */}
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered">
+          <thead className="thead-dark">
+            <tr>
+              <th scope="col">IP</th>
+              <th scope="col">Hostname</th>
+              <th scope="col">Latency</th>
+              <th scope="col">Ports</th>
             </tr>
           </thead>
           <tbody>
             {client.computers.map((computer) => (
-              <tr key={computer.ip_address} className="hover:bg-gray-100">
-                <td className="px-6 py-4 text-sm font-medium text-gray-800 border border-indigo-300">{computer.ip_address}</td>
-                <td className="px-6 py-4 text-sm font-medium text-gray-800 border border-indigo-300">{computer.hostname}</td>
-                <td className="px-6 py-4 text-sm text-gray-600 border border-indigo-300">{computer.latency}</td>
-                <td className="px-6 py-4 text-sm text-gray-600 border border-indigo-300">
-                  <ul className="list-disc pl-5">
+              <tr key={computer.ip_address}>
+                <td>{computer.ip_address}</td>
+                <td>{computer.hostname}</td>
+                <td>{computer.latency}</td>
+                <td>
+                  <ul className="list-unstyled">
                     {Object.entries(computer.ports).map(([port, service]) => (
-                      <li key={port} className="text-sm">
+                      <li key={port}>
                         <strong>{port}:</strong> {service}
                       </li>
                     ))}
