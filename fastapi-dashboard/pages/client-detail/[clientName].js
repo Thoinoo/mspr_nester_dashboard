@@ -65,7 +65,7 @@ export default function ClientDetail() {
       {/* Bouton de retour à l'accueil */}
       <div className="text-center mt-4">
         <Link href="/">
-          <Link href="/accueil">Retour à l'accueil</Link> {/* ✅ Correct */}
+          <Link href="/">Retour à l'accueil</Link> {/* ✅ Correct */}
         </Link>
       </div>
     </div>
