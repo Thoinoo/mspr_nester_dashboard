@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css"; // ✅ Import Bootstrap
 
 export default function Home() {
-  const [clients, setClients] = useState([]);
+  const [clients, setClients] = useState(null); // ✅ Ne pas initialiser avec []
   const [loading, setLoading] = useState(true);
-  const [isMounted, setIsMounted] = useState(false); // ✅ Empêche le rendu avant l'hydratation
 
   useEffect(() => {
-    setIsMounted(true); // ✅ Active le rendu après hydratation
-    fetchClients();
+    if (typeof window !== "undefined") {
+      fetchClients();
+    }
   }, []);
 
   const fetchClients = async () => {
@@ -24,19 +24,22 @@ export default function Home() {
     }
   };
 
-  if (!isMounted) return null; // ✅ Empêche le rendu SSR initial
+  // ✅ Éviter de faire un rendu tant que les données ne sont pas disponibles
+  if (clients === null) {
+    return (
+      <div className="container mt-5 text-center">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Liste des Clients</h1>
 
-      {loading ? (
-        <div className="text-center">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Chargement...</span>
-          </div>
-        </div>
-      ) : clients.length === 0 ? (
+      {clients.length === 0 ? (
         <p className="text-center">Aucun client trouvé.</p>
       ) : (
         <div className="table-responsive">
