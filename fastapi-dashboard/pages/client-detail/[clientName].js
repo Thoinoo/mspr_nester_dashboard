@@ -10,6 +10,7 @@ export default function ClientDetail() {
 
   useEffect(() => {
     if (!clientName) return;
+
     fetchClientDetail();
   }, [clientName]);
 
@@ -29,13 +30,11 @@ export default function ClientDetail() {
 
   return (
     <div className="container mt-5">
-      {/* Nom du client centré */}
       <h1 className="text-center mb-4">{client.client}</h1>
 
-      {/* Tableau Bootstrap */}
       <div className="table-responsive">
-        <table className="table table-bordered table-striped text-center">
-          <thead className="thead-dark">
+        <table className="table table-bordered table-hover text-center">
+          <thead className="table-dark">
             <tr>
               <th>IP</th>
               <th>Hostname</th>
@@ -51,9 +50,9 @@ export default function ClientDetail() {
                 <td>{computer.latency}</td>
                 <td>
                   {Object.entries(computer.ports).map(([port, service]) => (
-                    <span key={port} className="badge bg-primary me-1">
+                    <div key={port}>
                       {port} - {service}
-                    </span>
+                    </div>
                   ))}
                 </td>
               </tr>
@@ -62,10 +61,17 @@ export default function ClientDetail() {
         </table>
       </div>
 
-      {/* Bouton de retour à l'accueil */}
+      {/* ✅ Bouton "Prendre le contrôle à distance" */}
       <div className="text-center mt-4">
-        <Link href="/">
-          <Link href="/">Retour à l'accueil</Link> {/* ✅ Correct */}
+        <a href="http://127.0.0.1:8080/guacamole" target="_blank" rel="noopener noreferrer" className="btn btn-success">
+          Prendre le contrôle à distance
+        </a>
+      </div>
+
+      {/* ✅ Bouton "Retour à l'accueil" */}
+      <div className="text-center mt-3">
+        <Link href="/" className="btn btn-secondary">
+          Retour à l'accueil
         </Link>
       </div>
     </div>
