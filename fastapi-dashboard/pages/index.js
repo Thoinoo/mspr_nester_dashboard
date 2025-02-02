@@ -1,3 +1,5 @@
+"use client"; // ✅ Ajout pour désactiver le SSR si vous utilisez Next.js 13+
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -6,11 +8,11 @@ import "bootstrap/dist/css/bootstrap.min.css"; // ✅ Import Bootstrap
 export default function Home() {
   const [clients, setClients] = useState(null); // ✅ Ne pas initialiser avec []
   const [loading, setLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false); // ✅ Vérifier si on est côté client
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      fetchClients();
-    }
+    setIsClient(true); // ✅ Indiquer qu'on est côté client
+    fetchClients();
   }, []);
 
   const fetchClients = async () => {
@@ -24,22 +26,22 @@ export default function Home() {
     }
   };
 
-  // ✅ Éviter de faire un rendu tant que les données ne sont pas disponibles
-  if (clients === null) {
-    return (
-      <div className="container mt-5 text-center">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Chargement...</span>
-        </div>
-      </div>
-    );
+  // ✅ Éviter de faire un rendu tant qu'on est côté serveur
+  if (!isClient) {
+    return null; // ⛔ Empêche Next.js de faire du SSR et évite l'erreur
   }
 
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Liste des Clients</h1>
 
-      {clients.length === 0 ? (
+      {loading ? (
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Chargement...</span>
+          </div>
+        </div>
+      ) : clients && clients.length === 0 ? (
         <p className="text-center">Aucun client trouvé.</p>
       ) : (
         <div className="table-responsive">
@@ -51,7 +53,7 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {clients.map((client) => (
+              {clients?.map((client) => (
                 <tr key={client.client}>
                   <td>{client.client}</td>
                   <td>
