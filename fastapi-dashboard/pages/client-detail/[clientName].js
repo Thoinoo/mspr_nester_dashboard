@@ -1,24 +1,21 @@
-// pages/client-detail/[clientName].js
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 
 export default function ClientDetail() {
-  const { clientName } = useRouter().query; // Capture le nom du client depuis l'URL
+  const { clientName } = useRouter().query;
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!clientName) return; // Assurez-vous que le clientName est défini avant de faire la requête
-
+    if (!clientName) return;
     fetchClientDetail();
-  }, [clientName]); // Réexécuter lorsqu'un autre clientName est capturé
+  }, [clientName]);
 
   const fetchClientDetail = async () => {
     try {
-      // Assurez-vous que la requête correspond à l'API configurée avec la réécriture dans next.config.js
-      const response = await axios.get(`/api/clients/${clientName}`); // L'URL ici est celle de votre API réécrite
+      const response = await axios.get(`/api/clients/${clientName}`);
       setClient(response.data);
     } catch (error) {
       console.error("Error fetching client details:", error);
@@ -27,33 +24,23 @@ export default function ClientDetail() {
     }
   };
 
-  if (loading) return <p className="text-center text-muted">Chargement des détails...</p>;
-
-  if (!client) return <p className="text-center text-danger">Client introuvable.</p>;
+  if (loading) return <p className="text-center mt-4">Chargement des détails...</p>;
+  if (!client) return <p className="text-center mt-4">Client introuvable.</p>;
 
   return (
     <div className="container mt-5">
-      {/* Bouton retour à l'accueil */}
-      <div className="text-center mb-4">
-        <Link href="/" passHref>
-          <button className="btn btn-primary">
-            Retour à l'accueil
-          </button>
-        </Link>
-      </div>
+      {/* Nom du client centré */}
+      <h1 className="text-center mb-4">{client.client}</h1>
 
-      {/* Titre centré du nom du client */}
-      <h1 className="text-center text-primary mb-5">{client.client}</h1>
-
-      {/* Tableau stylisé avec Bootstrap */}
+      {/* Tableau Bootstrap */}
       <div className="table-responsive">
-        <table className="table table-striped table-bordered">
+        <table className="table table-bordered table-striped text-center">
           <thead className="thead-dark">
             <tr>
-              <th scope="col">IP</th>
-              <th scope="col">Hostname</th>
-              <th scope="col">Latency</th>
-              <th scope="col">Ports</th>
+              <th>IP</th>
+              <th>Hostname</th>
+              <th>Latence</th>
+              <th>Ports</th>
             </tr>
           </thead>
           <tbody>
@@ -63,18 +50,23 @@ export default function ClientDetail() {
                 <td>{computer.hostname}</td>
                 <td>{computer.latency}</td>
                 <td>
-                  <ul className="list-unstyled">
-                    {Object.entries(computer.ports).map(([port, service]) => (
-                      <li key={port}>
-                        <strong>{port}:</strong> {service}
-                      </li>
-                    ))}
-                  </ul>
+                  {Object.entries(computer.ports).map(([port, service]) => (
+                    <span key={port} className="badge bg-primary me-1">
+                      {port} - {service}
+                    </span>
+                  ))}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Bouton de retour à l'accueil */}
+      <div className="text-center mt-4">
+        <Link href="/">
+          <a className="btn btn-primary">Retour à l'accueil</a>
+        </Link>
       </div>
     </div>
   );
