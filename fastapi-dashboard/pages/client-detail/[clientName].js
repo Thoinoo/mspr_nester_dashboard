@@ -16,7 +16,8 @@ export default function ClientDetail() {
 
   const fetchClientDetail = async () => {
     try {
-      const response = await axios.get(`/api/clients/${clientName}`); // Utilisez le nom du client dans la requête API
+      // Assurez-vous que la requête correspond à l'API configurée avec la réécriture dans next.config.js
+      const response = await axios.get(`/api/clients/${clientName}`); // L'URL ici est celle de votre API réécrite
       setClient(response.data);
     } catch (error) {
       console.error("Error fetching client details:", error);
