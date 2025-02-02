@@ -63,7 +63,7 @@ export default function ClientDetail() {
 
       {/* ✅ Bouton "Prendre le contrôle à distance" */}
       <div className="text-center mt-4">
-        <a href="http://127.0.0.1:8080/guacamole" target="_blank" rel="noopener noreferrer" className="btn btn-success">
+        <a href="http://10.0.0.12:8080/guacamole" target="_blank" rel="noopener noreferrer" className="btn btn-success">
           Prendre le contrôle à distance
         </a>
       </div>
