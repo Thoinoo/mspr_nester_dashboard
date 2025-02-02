@@ -33,23 +33,35 @@ export default function ClientDetail() {
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">{client.client}</h1>
-      <div>
-        {client.computers.map((computer) => (
-          <div key={computer.ip_address} className="border p-4 mb-4 rounded-lg shadow">
-            <p><strong>IP:</strong> {computer.ip_address}</p>
-            <p><strong>Latence:</strong> {computer.latency}</p>
-            <p><strong>Hostname:</strong> {computer.hostname}</p>
-            <p><strong>Ports:</strong></p>
-            <ul>
-              {Object.entries(computer.ports).map(([port, service]) => (
-                <li key={port}>
-                  {port} - {service}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
+
+      <table className="min-w-full table-auto border-collapse border border-gray-300">
+        <thead>
+          <tr>
+            <th className="px-4 py-2 border-b">IP</th>
+            <th className="px-4 py-2 border-b">Hostname</th>
+            <th className="px-4 py-2 border-b">Latency</th>
+            <th className="px-4 py-2 border-b">Ports</th>
+          </tr>
+        </thead>
+        <tbody>
+          {client.computers.map((computer) => (
+            <tr key={computer.ip_address} className="border-b">
+              <td className="px-4 py-2">{computer.ip_address}</td>
+              <td className="px-4 py-2">{computer.hostname}</td>
+              <td className="px-4 py-2">{computer.latency}</td>
+              <td className="px-4 py-2">
+                <ul>
+                  {Object.entries(computer.ports).map(([port, service]) => (
+                    <li key={port}>
+                      {port} - {service}
+                    </li>
+                  ))}
+                </ul>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
