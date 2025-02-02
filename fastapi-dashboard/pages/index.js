@@ -44,11 +44,9 @@ export default function Home() {
                   <tr key={client.client}>
                     <td className="border-b p-4">{client.client}</td>
                     <td className="border-b p-4">
-                      <Link href={`/client-detail/${client.client}`}>
-                        <a className="bg-blue-500 text-white px-4 py-2 rounded">
+                      <Link href={`/client-detail/${client.client}`} className="bg-blue-500 text-white px-4 py-2 rounded">
                           Voir Détails
-                        </a>
-                      </Link>
+                        </Link>
                     </td>
                   </tr>
                 ))}
