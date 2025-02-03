@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import https from "https"; // Import de https
 import Link from "next/link";
 import "bootstrap/dist/css/bootstrap.min.css"; // ✅ Import Bootstrap
 
@@ -17,8 +18,13 @@ export default function Home() {
 
   const fetchClients = async () => {
     try {
-      // Appel à l'API route interne
-      const response = await axios.get("/api/clients");  // Utilise l'API interne
+      // Créer un agent HTTPS avec la configuration pour ignorer les erreurs de certificat
+      const agent = new https.Agent({
+        rejectUnauthorized: false, // Ignorer la vérification des certificats SSL
+      });
+
+      // Ajouter l'agent HTTPS à la requête axios
+      const response = await axios.get("/api/clients/", { httpsAgent: agent });
       setClients(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des clients:", error);
