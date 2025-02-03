@@ -1,11 +1,11 @@
-// next.config.js
+const fs = require('fs');
+const path = require('path');
+
 module.exports = {
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*', // Vous pouvez choisir n'importe quel chemin
-        destination: 'https://nester.foot.lan:57935/:path*', // C'est l'adresse de votre API
-      },
-    ]
+  devServer: {
+    https: {
+      key: fs.readFileSync(path.join(__dirname, 'private-key.pem')),
+      cert: fs.readFileSync(path.join(__dirname, 'certificate.pem')),
+    },
   },
-}
+};
