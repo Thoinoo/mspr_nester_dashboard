@@ -36,6 +36,25 @@ export default function Home() {
     }
   };
 
+  const deleteClient = async (clientName) => {
+    try {
+      const agent = new https.Agent({
+        rejectUnauthorized: false, // Ignorer la vérification des certificats SSL
+      });
+
+      // Construire l'URL pour la suppression
+      const deleteUrl = `https://nester.foot.lan:57935/clients/${clientName}`;
+
+      // Faire la requête DELETE
+      await axios.delete(deleteUrl, { httpsAgent: agent });
+
+      // Mettre à jour la liste des clients après suppression
+      setClients(clients.filter(client => client.client !== clientName));
+    } catch (error) {
+      console.error("Erreur lors de la suppression du client:", error);
+    }
+  };
+
   // ✅ Éviter de faire un rendu tant qu'on est côté serveur
   if (!isClient) {
     return null; // ⛔ Empêche Next.js de faire du SSR et évite l'erreur
@@ -60,6 +79,7 @@ export default function Home() {
               <tr>
                 <th>Client</th>
                 <th>Action</th>
+                <th>Supprimer</th> {/* Nouvelle colonne pour supprimer */}
               </tr>
             </thead>
             <tbody>
@@ -70,6 +90,14 @@ export default function Home() {
                     <Link href={`/client-detail/${client.client}`} className="btn btn-primary">
                       Voir Détails
                     </Link>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => deleteClient(client.client)} // Appel de la fonction deleteClient
+                    >
+                      Supprimer
+                    </button>
                   </td>
                 </tr>
               ))}
