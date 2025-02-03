@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import "bootstrap/dist/css/bootstrap.min.css"; // ✅ Import Bootstrap
+import fs from 'fs';
+import https from 'https';
 
 export default function Home() {
   const [clients, setClients] = useState(null); // ✅ Ne pas initialiser avec []
@@ -17,7 +19,17 @@ export default function Home() {
 
   const fetchClients = async () => {
     try {
-      const response = await axios.get("/api/clients/");
+      // Charger le certificat de l'autorité de certification
+      const caCert = fs.readFileSync('/etc/ssl/FOOTCA.crt'); // Remplace par le chemin de ton fichier CA
+
+      // Créer un agent HTTPS avec le certificat de l'AC
+      const agent = new https.Agent({
+        ca: caCert,  // Ajouter le certificat de l'autorité de certification
+        rejectUnauthorized: true,  // Empêche d'ignorer les erreurs SSL
+      });
+
+      // Effectuer l'appel à l'API en utilisant l'agent HTTPS avec certificat CA
+      const response = await axios.get("/api/clients/", { httpsAgent: agent });
       setClients(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des clients:", error);
