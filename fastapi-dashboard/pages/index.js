@@ -18,7 +18,7 @@ export default function Home() {
   const fetchClients = async () => {
     try {
       // Appel à l'API route interne
-      const response = await axios.get("/api/clients/");
+      const response = await axios.get("/api/clients");  // Utilise l'API interne
       setClients(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des clients:", error);
