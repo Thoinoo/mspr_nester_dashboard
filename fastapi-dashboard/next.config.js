@@ -4,8 +4,8 @@ const path = require('path');
 module.exports = {
   devServer: {
     https: {
-      key: fs.readFileSync(path.join(__dirname, 'private-key.pem')),
-      cert: fs.readFileSync(path.join(__dirname, 'certificate.pem')),
+      key: fs.readFileSync(path.join(__dirname, '/etc/ssl/nester/cert_api.key')),
+      cert: fs.readFileSync(path.join(__dirname, '/etc/ssl/nester/cert_api.crt')),
     },
   },
 };
