@@ -23,8 +23,11 @@ export default function Home() {
         rejectUnauthorized: false, // Ignorer la vérification des certificats SSL
       });
 
+      // L'URL complète de votre API
+      const apiUrl = "https://nester.foot.lan:57935/clients/";  // Remplacez par l'URL de votre API
+
       // Ajouter l'agent HTTPS à la requête axios
-      const response = await axios.get("/api/clients/", { httpsAgent: agent });
+      const response = await axios.get(apiUrl, { httpsAgent: agent });
       setClients(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des clients:", error);
