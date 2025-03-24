@@ -7,6 +7,6 @@ module.exports = {
       key: fs.readFileSync(path.join(__dirname, './certs/cert_nester.key')),
       cert: fs.readFileSync(path.join(__dirname, './certs/cert_nester.crt')),
     },
-    port: 443, // Ou 443 si vous voulez utiliser le port HTTPS standard
+    port: 3000, // Ou 443 si vous voulez utiliser le port HTTPS standard
   },
 };
