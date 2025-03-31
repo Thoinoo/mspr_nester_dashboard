@@ -24,7 +24,7 @@ export default function Home() {
       });
 
       // L'URL complète de votre API
-      const apiUrl = "https://nester.nfl-it.local:57935/clients/";  // Remplacez par l'URL de votre API
+      const apiUrl = "https://10.1.0.71:57935/clients/";  // Remplacez par l'URL de votre API
 
       // Ajouter l'agent HTTPS à la requête axios
       const response = await axios.get(apiUrl, { httpsAgent: agent });
@@ -43,7 +43,7 @@ export default function Home() {
       });
 
       // Construire l'URL pour la suppression
-      const deleteUrl = `https://nester.nfl-it.local:57935/clients/${clientName}`;
+      const deleteUrl = `https://10.1.0.71:57935/clients/${clientName}`;
 
       // Faire la requête DELETE
       await axios.delete(deleteUrl, { httpsAgent: agent });
