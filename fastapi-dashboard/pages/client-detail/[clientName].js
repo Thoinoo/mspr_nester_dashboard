@@ -23,7 +23,7 @@ export default function ClientDetail() {
       });
 
       // L'URL complète de votre API pour les détails du client
-      const apiUrl = `https://10.1.0.71:57935/clients/${clientName}`;  // Remplacez par l'URL de votre API
+      const apiUrl = `https://nester-api.nfl-it.local:57935/clients/${clientName}`;  // Remplacez par l'URL de votre API
 
       // Ajouter l'agent HTTPS à la requête axios
       const response = await axios.get(apiUrl, { httpsAgent: agent });
@@ -73,7 +73,7 @@ export default function ClientDetail() {
 
       {/* ✅ Bouton "Prendre le contrôle à distance" */}
       <div className="text-center mt-4">
-        <a href="https://10.1.0.71:8443/guacamole" target="_blank" rel="noopener noreferrer" className="btn btn-success">
+        <a href="https://nester-api.nfl-it.local:8443/guacamole" target="_blank" rel="noopener noreferrer" className="btn btn-success">
           Prendre le contrôle à distance
         </a>
       </div>
